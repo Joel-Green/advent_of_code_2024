@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"math"
 	"os"
 	"slices"
 	"strconv"
@@ -12,6 +11,7 @@ import (
 )
 
 func main() {
+	// f, err := os.Open("testinput.txt")
 	f, err := os.Open("input1.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -49,11 +49,24 @@ func main() {
 	slices.Sort(arr1)
 	slices.Sort(arr2)
 
-	var final float64 = 0
+	var final int64 = 0
+	tmpptr := 0
+	for i := 0; i < len(arr1) && tmpptr < len(arr1); i++ {
+		count := 0
+		tmpptr = 0
+		for arr2[tmpptr] <= arr1[i] {
+			if arr2[tmpptr] < arr1[i] {
+				tmpptr++
+				continue
+			}
+			tmpptr++
+			count++
+			if tmpptr >= len(arr2) {
+				break
+			}
+		}
+		final = final + int64(arr1[i]*count)
 
-	for i := 0; i < len(arr1); i++ {
-		tmp := math.Abs(float64(arr1[i] - arr2[i]))
-		final += tmp
 	}
 
 	fmt.Println("final value:", int(final))
