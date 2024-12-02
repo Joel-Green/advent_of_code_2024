@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"math"
+	// "math"
 	"os"
 	"strconv"
 	"strings"
@@ -27,8 +27,8 @@ func main() {
 		var prevVal int
 		validReport := true
 		inc := true
-		for index, element := range split {
 
+		for index, element := range split {
 			val, err := strconv.Atoi(element)
 			if err != nil {
 				log.Fatal(err)
@@ -47,38 +47,19 @@ func main() {
 					inc = true
 				}
 
-			} else if index > 1 {
-				if inc {
-					if differ > 0 {
-						validReport = false
-						break
-					}
-				} else {
-					if differ < 0 {
-						validReport = false
-						break
-					}
-				}
-
 			}
 
-			differ = math.Abs(differ)
-
-			if differ > 3 || differ == 0 {
+			if (inc && (differ >= 0 || differ < -3)) || (!inc && (differ <= 0 || differ > 3)) {
 				validReport = false
 				break
 			}
-			prevVal = val
 
+			prevVal = val
 		}
 
 		if validReport {
-			fmt.Println("VALID TEXT", text)
 			valid++
-		} else {
-			fmt.Println("INVALID TEXT", text)
 		}
-
 	}
 
 	fmt.Println("output:", valid)
